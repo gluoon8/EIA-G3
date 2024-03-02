@@ -10,4 +10,8 @@ format-sh:
 
 .PHONY: formatf90
 format-f90:
-	fprettify .
+	fprettify src/*
+	
+.PHONY: docs
+docs:
+	doxygen
