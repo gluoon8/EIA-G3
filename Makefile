@@ -10,7 +10,7 @@ format-sh:
 
 .PHONY: formatf90
 format-f90:
-	fprettify src/*
+	 find src -name "*.F90" -exec fprettify {} \;
 	
 .PHONY: docs
 docs:
