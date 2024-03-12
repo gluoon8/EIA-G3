@@ -1,16 +1,16 @@
 .PHONY: formatpy
 format-py:
-	isort .
-	black .
+	isort src
+	black src
 
 .PHONY: formatsh
 format-sh:
-	shellcheck .
-	shfmt .
+	find src -name "*.sh" -exec shellcheck --severity error {} \;
+	find src -name "*.sh" -exec shfmt -w -i 4 {} \;
 
 .PHONY: formatf90
 format-f90:
-	fprettify src/*
+	 find src -name "*.F90" -exec fprettify {} \;
 	
 .PHONY: docs
 docs:
