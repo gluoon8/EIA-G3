@@ -12,12 +12,15 @@
 ! (b) Calculate the pressure of a system of (N > 100) argon atoms at kB T = 1.2 for densities ρ =
 ! 0.05, 0.1, 0.2, 0.4, 0.6, 0.8m/σ 3 . Plot your results in Pascal.
 !(c) (extra 1) Calculate the mean square displacement over time of argon atoms in a system of N > 100 particles
-! with ρ1 = 0.05m/σ 3 and ρ1 = 0.8m/σ 3 at kB T = 1.2. Extract the corresponding diffusion coefficient
+! with ρ1 = 0.05m/σ 3 and ρ1 = 0.8m/σ 3 at kB T = 1.2A. Extract the corresponding diffusion coefficient
 ! of argon atoms. Show the plot of the mean square displacement (in units of Å2 ) versus time (in units of
 ! picoseconds). Interpret your results in terms of the phase diagram of the Lennard-Jones fluid shown in
 ! Fig. 1.
-! (d) (extra 2) Obtain the radial distribution function of argon at kB T = 2.0 and ρ = 0.8m/σ 3 . Show the plot
+! (d) (extra 2) Obtain the radial distribution function of argon at kB T = 2.0A and ρ = 0.8m/σ 3 . Show the plot
 ! of the radial distribution function versus distance in units of Ångstrom.
+
+! rho = 0.1, T = 1.4
+
 
 Program P_final_b
 
@@ -39,6 +42,8 @@ Program P_final_b
 
    rho_list = (/0.05, 0.1, 0.2, 0.4, 0.6, 0.8/)
 
+   !rho_list = (/0.05/)
+
    dt = 1e-5
 
    call random_seed(size=nn)
@@ -50,10 +55,11 @@ Program P_final_b
    open (44, file="Inicilaization-Verlet.dat")
    open (55, file="thermodynamics.dat")
 
-   do rho_index = 1, 6
+   !do rho_index = 1, 6
 
       ! system inicialization
-      rho = rho_list(rho_index)
+      !rho = rho_list(rho_index)
+      rho = 0.1
 
       write (rho_str, '(F4.2)') rho
 
@@ -81,7 +87,13 @@ Program P_final_b
 
       call initialize_positions(N, rho, r)
 
-      ! Equilibration of the system
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!                                                             !
+!                        Equilibration                        !
+!                                                             ! 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   
       do step = 1, Nsteps_ini
          !        do i = 1, N
          !                print*, i ,vel(i, :)
@@ -90,6 +102,11 @@ Program P_final_b
          call therm_Andersen(vel, nu, sigma_gaussian, N)
          call kinetic_energy(vel, K_energy, N)
          !print*, real(step)/Nsteps
+         if (step .eq. 1) then
+            write (44, *) "step", "pot", "K_energy", "total"
+            write (44, *) step, pot, K_energy, pot + K_energy
+         end if
+         
          if (mod(step, 1000) .eq. 0) then
             print *, real(step)/Nsteps_ini
             write (44, *) step, pot, K_energy, pot + K_energy
@@ -102,7 +119,7 @@ Program P_final_b
       print *, "PRODUCTION STARTS"
       print *, "-------------------"
 
-      Temp = 1.2
+      Temp = 1.3
       sigma_gaussian = Temp**(1.d0/2.d0)
       print *, sigma_gaussian
 
@@ -148,17 +165,17 @@ Program P_final_b
 
       close (66)
 
-      open (33, file="posis_"//rho_str//".xyz")
+      !!!open (33, file="posis_"//trim(adjustl(itoa(rho)))//".xyz")
 
-      write (33, *) N
-      write (33, *) ""
-      do particle = 1, N
-         write (33, *) "A", r(particle, :)
-      end do
+      !write (33, *) N
+      !write (33, *) ""
+      !do particle = 1, N
+      !   write (33, *) "A", r(particle, :)
+      !end do
 
-      close (33)
+      !close (33)
 
-   end do
+   !end do
 
    close (44)
    close (55)
