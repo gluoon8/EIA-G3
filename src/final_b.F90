@@ -119,7 +119,7 @@ Program P_final_b
       print *, "PRODUCTION STARTS"
       print *, "-------------------"
 
-      Temp = 1.3
+      Temp = 1.4
       sigma_gaussian = Temp**(1.d0/2.d0)
       print *, sigma_gaussian
 
@@ -165,15 +165,15 @@ Program P_final_b
 
       close (66)
 
-      !!!open (33, file="posis_"//trim(adjustl(itoa(rho)))//".xyz")
+      open (33, file="posis.xyz")
 
-      !write (33, *) N
-      !write (33, *) ""
-      !do particle = 1, N
-      !   write (33, *) "A", r(particle, :)
-      !end do
+      write (33, *) N
+      write (33, *) ""
+      do particle = 1, N
+         write (33, *) "A", r(particle, :)
+      end do
 
-      !close (33)
+      close (33)
 
    !end do
 
