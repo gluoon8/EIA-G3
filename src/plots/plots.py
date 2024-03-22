@@ -35,7 +35,7 @@ plt.show()
 #
 
 plt.figure(figsize=(10, 5))
-plt.plot(data[:, 0], data[:, 4], label='Temperature')
+plt.plot(data[:plt., dataata[:,, label='Temperature')
 plt.xlabel('Step')
 plt.ylabel('Temperature')
 plt.legend()
